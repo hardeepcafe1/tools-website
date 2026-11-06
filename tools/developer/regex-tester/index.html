@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<!-- Toolbox by Harmno | github.com/harmno -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#ffffff" />
+  <title>Regex Tester — Toolbox</title>
+  <meta name="description" content="Test regular expressions live — see matches highlighted, count them, inspect capture groups. Free in your browser." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%236366f1'/%3E%3Cstop offset='1' stop-color='%238b5cf6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='8' fill='url(%23g)'/%3E%3Crect x='8.5' y='8.5' width='6.5' height='6.5' rx='1.6' fill='%23fff'/%3E%3Crect x='17' y='8.5' width='6.5' height='6.5' rx='1.6' fill='%23fff' opacity='.75'/%3E%3Crect x='8.5' y='17' width='6.5' height='6.5' rx='1.6' fill='%23fff' opacity='.75'/%3E%3Crect x='17' y='17' width='6.5' height='6.5' rx='1.6' fill='%23fff' opacity='.5'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../../css/style.css" />
+<!-- toolbox-icon: terminal -->
+</head>
+<body class="tool-page">
+
+  <header class="tool-nav">
+    <div class="tool-nav-inner">
+      <a class="back-link" href="../../../index.html">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        All tools
+      </a>
+      <a class="brand" href="../../../index.html" aria-label="Toolbox home">
+        <svg class="brand-mark" viewBox="0 0 32 32" width="28" height="28" aria-hidden="true">
+          <defs><linearGradient id="brandGradSm" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6366f1"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient></defs>
+          <rect width="32" height="32" rx="8" fill="url(#brandGradSm)"/>
+          <rect x="8.5" y="8.5" width="6.5" height="6.5" rx="1.6" fill="#fff"/>
+          <rect x="17" y="8.5" width="6.5" height="6.5" rx="1.6" fill="#fff" opacity=".75"/>
+          <rect x="8.5" y="17" width="6.5" height="6.5" rx="1.6" fill="#fff" opacity=".75"/>
+          <rect x="17" y="17" width="6.5" height="6.5" rx="1.6" fill="#fff" opacity=".5"/>
+        </svg>
+        <span class="brand-name" style="font-size:17px">Toolbox</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="tool-shell">
+    <div class="tool-head">
+      <div class="tool-icon tint-developer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="5 7 10 12 5 17"/><line x1="12.5" y1="17" x2="19" y2="17"/></svg>
+      </div>
+      <h1>Regex Tester</h1>
+      <p>Write a pattern, paste your test string — matches light up live. 100% local.</p>
+    </div>
+
+    <div class="tool-panel">
+      <div class="field-group">
+        <label for="patternInput">Regular expression</label>
+        <input type="text" id="patternInput" class="text-input" style="font-family:var(--mono);font-size:15px" placeholder="\b(\w+)\s*=\s*(\d+)\b" spellcheck="false" autocomplete="off" autofocus />
+      </div>
+
+      <div class="field-group" style="margin-top:12px">
+        <label>Flags</label>
+        <div class="flag-chips" id="flagRow"></div>
+      </div>
+
+      <div class="field-group" style="margin-top:12px">
+        <label for="testInput">Test string</label>
+        <textarea id="testInput" class="tool-textarea" style="min-height:130px;font-family:var(--mono);font-size:13px" spellcheck="false" placeholder="Paste the text you want to test against…&#10;port=8080&#10;host=localhost&#10;debug=1"></textarea>
+      </div>
+
+      <div class="error-box" id="errorBox" role="alert" style="margin-top:12px"></div>
+
+      <div class="result-row" style="margin-top:14px">
+        <div>
+          <strong id="matchCount" style="font-size:22px;letter-spacing:-0.02em">0</strong>
+          <span style="color:var(--text-2);font-size:13px"> matches</span>
+        </div>
+        <span id="engineNote" style="font-size:11.5px;color:var(--text-3)">JavaScript RegExp engine</span>
+      </div>
+
+      <label style="font-size:12px;font-weight:650;letter-spacing:.03em;color:var(--text-2);display:block;margin:16px 0 7px">Preview with matches highlighted</label>
+      <div class="highlighted-view" id="highlightedView" aria-live="polite"><span style="color:var(--text-3)">Matches will be highlighted here…</span></div>
+
+      <label style="font-size:12px;font-weight:650;letter-spacing:.03em;color:var(--text-2);display:block;margin:16px 0 7px">Match details</label>
+      <div class="match-list" id="matchList"><div class="match-item"><span class="idx">—</span><span style="color:var(--text-3)">No matches yet</span></div></div>
+    </div>
+  </main>
+
+  <a class="harmno-badge" href="https://github.com/harmno" target="_blank" rel="noopener" aria-label="Harmno on GitHub"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.111.82-.261.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>Harmno</a>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <footer class="tool-footer-mini">
+    <a href="../../../index.html">← Back to all tools</a> &nbsp;·&nbsp; Toolbox by <a href="https://github.com/harmno" target="_blank" rel="noopener">Harmno</a>
+  </footer>
+
+  <script>
+    const patternInput   = document.getElementById('patternInput');
+    const testInput      = document.getElementById('testInput');
+    const flagRow        = document.getElementById('flagRow');
+    const matchCount     = document.getElementById('matchCount');
+    const highlightedView = document.getElementById('highlightedView');
+    const matchList      = document.getElementById('matchList');
+    const errorBox       = document.getElementById('errorBox');
+
+    const FLAGS = [['g', 'global'], ['i', 'ignore case'], ['m', 'multiline'], ['s', 'dotAll'], ['u', 'unicode']];
+    const DEFAULT_ON = new Set(['g', 'i']);
+
+    flagRow.innerHTML = FLAGS.map(([flag, label]) => `
+      <label class="flag-chip" title="${label}">
+        <input type="checkbox" value="${flag}" ${DEFAULT_ON.has(flag) ? 'checked' : ''} />
+        <span>${flag}</span>
+      </label>`).join('');
+
+    const escapeHTML = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+    function getFlags() {
+      return [...flagRow.querySelectorAll('input:checked')].map((el) => el.value).join('');
+    }
+
+    function resetOutput() {
+      matchCount.textContent = '0';
+      highlightedView.innerHTML = '<span style="color:var(--text-3)">Matches will be highlighted here…</span>';
+      matchList.innerHTML = '<div class="match-item"><span class="idx">—</span><span style="color:var(--text-3)">No matches yet</span></div>';
+    }
+
+    function run() {
+      errorBox.classList.remove('show');
+      const pattern = patternInput.value;
+      const text = testInput.value;
+
+      if (!pattern) { resetOutput(); return; }
+
+      const userFlags = getFlags();
+      const loopFlags = userFlags.includes('g') ? userFlags : userFlags + 'g';
+
+      let re;
+      try {
+        re = new RegExp(pattern, loopFlags);
+      } catch (err) {
+        errorBox.textContent = 'Invalid regular expression: ' + (err.message || err);
+        errorBox.classList.add('show');
+        resetOutput();
+        return;
+      }
+
+      const matches = [];
+      let m;
+      let safety = 0;
+      while ((m = re.exec(text)) !== null && safety++ < 2000) {
+        matches.push({ index: m.index, text: m[0], groups: m.slice(1) });
+        if (m[0].length === 0) re.lastIndex++;
+        if (!userFlags.includes('g')) break;
+      }
+
+      matchCount.textContent = String(matches.length) + (safety >= 2000 ? '+' : '');
+
+      // Highlighted preview (escape everything, wrap matches in <mark>)
+      if (!text) {
+        highlightedView.innerHTML = '<span style="color:var(--text-3)">Type a test string…</span>';
+      } else {
+        let html = '';
+        let last = 0;
+        for (const mt of matches) {
+          if (mt.text.length === 0) continue;
+          html += escapeHTML(text.slice(last, mt.index));
+          html += `<mark class="match-mark">${escapeHTML(mt.text)}</mark>`;
+          last = mt.index + mt.text.length;
+        }
+        html += escapeHTML(text.slice(last));
+        highlightedView.innerHTML = html || escapeHTML(text);
+      }
+
+      // Match details list (cap at 25 rows)
+      if (matches.length === 0) {
+        matchList.innerHTML = '<div class="match-item"><span class="idx">—</span><span style="color:var(--text-3)">No matches</span></div>';
+        return;
+      }
+      const rows = matches.slice(0, 25).map((mt, i) => {
+        const groups = mt.groups.length
+          ? ' &nbsp;·&nbsp; groups: ' + mt.groups.map((g, gi) => `<b>$${gi + 1}</b>=${g === undefined ? '∅' : escapeHTML(JSON.stringify(g))}`).join(', ')
+          : '';
+        const shown = mt.text.length > 80 ? escapeHTML(mt.text.slice(0, 80)) + '…' : escapeHTML(mt.text);
+        return `<div class="match-item"><span class="idx">#${i + 1} @${mt.index}</span><span><b>${shown || '(empty match)'}</b>${groups}</span></div>`;
+      });
+      if (matches.length > 25) rows.push(`<div class="match-item"><span class="idx">…</span><span style="color:var(--text-3)">${matches.length - 25} more matches not shown</span></div>`);
+      matchList.innerHTML = rows.join('');
+    }
+
+    patternInput.addEventListener('input', run);
+    testInput.addEventListener('input', run);
+    flagRow.addEventListener('change', run);
+  </script>
+  <script src="../../../js/vault.js"></script>
+</body>
+</html>

@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<!-- Toolbox by Harmno | github.com/harmno -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#ffffff" />
+  <title>Image Resizer — Toolbox</title>
+  <meta name="description" content="Resize images to exact pixels, centimeters or inches — with print DPI control and one-click ratio templates (1:1, 16:9, passport, A4). Free in your browser." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%236366f1'/%3E%3Cstop offset='1' stop-color='%238b5cf6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='8' fill='url(%23g)'/%3E%3Crect x='8.5' y='8.5' width='6.5' height='6.5' rx='1.6' fill='%23fff'/%3E%3Crect x='17' y='8.5' width='6.5' height='6.5' rx='1.6' fill='%23fff' opacity='.75'/%3E%3Crect x='8.5' y='17' width='6.5' height='6.5' rx='1.6' fill='%23fff' opacity='.75'/%3E%3Crect x='17' y='17' width='6.5' height='6.5' rx='1.6' fill='%23fff' opacity='.5'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../../css/style.css" />
+<!-- toolbox-icon: maximize -->
+</head>
+<body class="tool-page">
+
+  <header class="tool-nav">
+    <div class="tool-nav-inner">
+      <a class="back-link" href="../../../index.html">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        All tools
+      </a>
+      <a class="brand" href="../../../index.html" aria-label="Toolbox home">
+        <svg class="brand-mark" viewBox="0 0 32 32" width="28" height="28" aria-hidden="true">
+          <defs><linearGradient id="brandGradSm" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6366f1"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient></defs>
+          <rect width="32" height="32" rx="8" fill="url(#brandGradSm)"/>
+          <rect x="8.5" y="8.5" width="6.5" height="6.5" rx="1.6" fill="#fff"/>
+          <rect x="17" y="8.5" width="6.5" height="6.5" rx="1.6" fill="#fff" opacity=".75"/>
+          <rect x="8.5" y="17" width="6.5" height="6.5" rx="1.6" fill="#fff" opacity=".75"/>
+          <rect x="17" y="17" width="6.5" height="6.5" rx="1.6" fill="#fff" opacity=".5"/>
+        </svg>
+        <span class="brand-name" style="font-size:17px">Toolbox</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="tool-shell">
+    <div class="tool-head">
+      <div class="tool-icon tint-image">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="13" y2="11"/><line x1="3" y1="21" x2="11" y2="13"/></svg>
+      </div>
+      <h1>Image Resizer</h1>
+      <p>Pixels, centimeters or inches — plus one-click ratio templates. Aspect ratio locked in by default.</p>
+    </div>
+
+    <div class="tool-panel">
+      <!-- Dropzone -->
+      <div class="dropzone" id="dropzone" role="button" tabindex="0" aria-label="Upload an image">
+        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin:0 auto;color:var(--accent)"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="13" y2="11"/><line x1="3" y1="21" x2="11" y2="13"/></svg>
+        <p><strong>Click to choose an image</strong> or drag &amp; drop it here</p>
+        <p style="font-size:11.5px;color:var(--text-3)">JPG · PNG · WebP — up to ~15 MB</p>
+        <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp" hidden />
+      </div>
+
+      <div class="error-box" id="errorBox" role="alert" style="margin-top:12px"></div>
+
+      <!-- Editor -->
+      <div id="editor" hidden>
+        <div class="result-row" style="margin-top:16px">
+          <div>
+            <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3);margin-bottom:4px">Original</div>
+            <strong id="origDims" style="font-size:17px">—</strong>
+            <div id="origName" style="font-size:11px;color:var(--text-3);margin-top:4px;word-break:break-all">—</div>
+          </div>
+          <img id="thumbPreview" alt="Image preview" style="max-width:120px;max-height:90px;border-radius:10px;border:1px solid var(--border)" />
+        </div>
+
+        <!-- Ratio templates -->
+        <div class="field-group" style="margin-top:16px">
+          <label>Ratio templates — tap to lock</label>
+          <div class="ratio-grid" id="templateRow" role="group" aria-label="Aspect ratio templates"></div>
+        </div>
+
+        <!-- Unit picker + DPI -->
+        <div class="field-grid grid-weighted-2" style="margin-top:14px">
+          <div class="field-group">
+            <label>Units</label>
+            <div class="chip-options" id="unitRow" role="group" aria-label="Unit">
+              <button class="opt-chip" data-unit="px" aria-pressed="true">Pixels</button>
+              <button class="opt-chip" data-unit="cm" aria-pressed="false">Centimeters</button>
+              <button class="opt-chip" data-unit="in" aria-pressed="false">Inches</button>
+            </div>
+          </div>
+          <div class="field-group" id="dpiGroup" hidden>
+            <label for="dpiSelect">Print DPI</label>
+            <select id="dpiSelect" class="select-input">
+              <option value="96" selected>96 — Screen</option>
+              <option value="150">150 — Draft print</option>
+              <option value="300">300 — High-res print</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Width / Height / Lock -->
+        <div class="field-grid grid-lock-row" style="margin-top:14px">
+          <div class="field-group">
+            <label for="widthInput">Width (<span class="unitLabel">px</span>)</label>
+            <input type="number" id="widthInput" class="text-input" min="1" step="any" inputmode="decimal" />
+          </div>
+          <div class="field-group">
+            <label for="heightInput">Height (<span class="unitLabel">px</span>)</label>
+            <input type="number" id="heightInput" class="text-input" min="1" step="any" inputmode="decimal" />
+          </div>
+          <label class="field-group" style="display:flex;align-items:center;gap:9px;height:46px;cursor:pointer;user-select:none">
+            <input type="checkbox" id="aspectLock" checked style="width:18px;height:18px;accent-color:var(--accent)" />
+            <span style="font-size:13px;font-weight:600;color:var(--text-2)">Lock<br>ratio</span>
+          </label>
+        </div>
+
+        <div class="field-group" style="margin-top:12px">
+          <label>Quick scale</label>
+          <div class="chip-options" id="scaleRow">
+            <button class="opt-chip" data-scale="0.25">25%</button>
+            <button class="opt-chip" data-scale="0.5">50%</button>
+            <button class="opt-chip" data-scale="0.75">75%</button>
+            <button class="opt-chip" data-scale="1" aria-pressed="true">100%</button>
+          </div>
+        </div>
+
+        <div class="field-grid" style="margin-top:12px">
+          <div class="field-group">
+            <label for="formatSelect">Output format</label>
+            <select id="formatSelect" class="select-input">
+              <option value="image/png" selected>PNG (lossless)</option>
+              <option value="image/jpeg">JPEG (smaller)</option>
+              <option value="image/webp">WebP (smallest)</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label for="jpegQuality">JPEG quality — <span id="jpegQualityLabel">85</span>%</label>
+            <input type="range" id="jpegQuality" min="10" max="100" value="85" style="width:100%;accent-color:var(--accent);height:46px" />
+          </div>
+        </div>
+
+        <div class="result-row" style="margin-top:16px">
+          <div>
+            <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3);margin-bottom:4px">Output size</div>
+            <strong id="outputDims" style="font-size:17px">—</strong>
+          </div>
+          <div style="text-align:right;font-size:12px;color:var(--text-3);max-width:260px;line-height:1.5" id="outputNote">Aspect ratio locked</div>
+        </div>
+
+        <div class="tool-actions" style="margin-top:16px">
+          <button class="btn btn-primary" id="resizeBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Resize &amp; download
+          </button>
+          <button class="btn btn-ghost" id="resetBtn">Choose another image</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <a class="harmno-badge" href="https://github.com/harmno" target="_blank" rel="noopener" aria-label="Harmno on GitHub"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.111.82-.261.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>Harmno</a>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <footer class="tool-footer-mini">
+    <a href="../../../index.html">← Back to all tools</a> &nbsp;·&nbsp; Toolbox by <a href="https://github.com/harmno" target="_blank" rel="noopener">Harmno</a>
+  </footer>
+
+  <canvas id="workCanvas" hidden></canvas>
+
+  <script>
+    const dropzone       = document.getElementById('dropzone');
+    const fileInput      = document.getElementById('fileInput');
+    const editor         = document.getElementById('editor');
+    const errorBox       = document.getElementById('errorBox');
+    const widthInput     = document.getElementById('widthInput');
+    const heightInput    = document.getElementById('heightInput');
+    const aspectLock     = document.getElementById('aspectLock');
+    const scaleRow       = document.getElementById('scaleRow');
+    const templateRow    = document.getElementById('templateRow');
+    const unitRow        = document.getElementById('unitRow');
+    const dpiGroup       = document.getElementById('dpiGroup');
+    const dpiSelect      = document.getElementById('dpiSelect');
+    const formatSelect   = document.getElementById('formatSelect');
+    const jpegQuality    = document.getElementById('jpegQuality');
+    const jpegQualityLabel = document.getElementById('jpegQualityLabel');
+    const outputDims     = document.getElementById('outputDims');
+    const outputNote     = document.getElementById('outputNote');
+    const origDims       = document.getElementById('origDims');
+    const origName       = document.getElementById('origName');
+    const thumbPreview   = document.getElementById('thumbPreview');
+    const canvas         = document.getElementById('workCanvas');
+    const ctx            = canvas.getContext('2d');
+    const toast          = document.getElementById('toast');
+
+    /* ── Ratio templates (w / h) ─────────────────────────────── */
+    const TEMPLATES = [
+      { id: 'square',   label: '1:1',   sub: 'Square / Post',   ratio: 1,             boxW: 22, boxH: 22 },
+      { id: 'portrait', label: '4:5',   sub: 'Instagram',       ratio: 4 / 5,         boxW: 20, boxH: 25 },
+      { id: 'classic',  label: '4:3',   sub: 'Classic',         ratio: 4 / 3,         boxW: 26, boxH: 19 },
+      { id: 'photo',    label: '3:2',   sub: 'DSLR photo',      ratio: 3 / 2,         boxW: 26, boxH: 17 },
+      { id: 'portrait23', label: '2:3', sub: 'Portrait',        ratio: 2 / 3,         boxW: 17, boxH: 25 },
+      { id: 'wide',     label: '16:9',  sub: 'YouTube / Screen',ratio: 16 / 9,        boxW: 29, boxH: 16 },
+      { id: 'story',    label: '9:16',  sub: 'Story / Reel',    ratio: 9 / 16,        boxW: 15, boxH: 26 },
+      { id: 'passport', label: '3.5:4.5', sub: 'Passport photo', ratio: 3.5 / 4.5,    boxW: 19, boxH: 25 },
+      { id: 'a4',       label: 'A4',    sub: 'Paper 210×297',   ratio: 210 / 297,     boxW: 18, boxH: 25 },
+    ];
+
+    /* ── State ──────────────────────────────────────────────── */
+    const state = {
+      img: null, original: null, url: null,
+      ratio: 1,            // px-space aspect ratio (w/h) — same in any unit
+      unit: 'px',          // px | cm | in
+      dpi: 96,             // used for cm / in
+      activeTemplate: null,
+      syncing: false,
+    };
+    let toastTimer;
+
+    templateRow.innerHTML = TEMPLATES.map((t) => `
+      <button class="ratio-tpl" data-id="${t.id}" data-ratio="${t.ratio}" aria-pressed="false" title="${t.sub}">
+        <span class="ratio-box" style="width:${t.boxW}px;height:${t.boxH}px"></span>
+        <span class="ratio-label">${t.label}</span>
+        <span class="ratio-sub">${t.sub}</span>
+      </button>`).join('');
+
+    const pxPerUnit = () => state.unit === 'px' ? 1 : state.unit === 'cm' ? state.dpi / 2.54 : state.dpi;
+    const unitLabel = () => state.unit;
+    const precision = () => state.unit === 'px' ? 0 : 2;
+    const fmtField  = (n) => {
+      if (!Number.isFinite(n)) return '';
+      const p = precision();
+      return p === 0 ? String(Math.max(1, Math.round(n))) : n.toFixed(p);
+    };
+    const fromField = (el) => parseFloat(el.value);
+
+    const extFor = (type) => type === 'image/png' ? 'png' : type === 'image/webp' ? 'webp' : 'jpg';
+
+    function showError(msg) { errorBox.textContent = msg; errorBox.classList.add('show'); }
+    function clearError()    { errorBox.classList.remove('show'); }
+    function showToast(msg) {
+      toast.textContent = msg;
+      toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove('show'), 2400);
+    }
+
+    /* Current dimensions in pixels (rounded ints, min 1) */
+    function currentPx() {
+      const f = pxPerUnit();
+      const w = fromField(widthInput) * f;
+      const h = fromField(heightInput) * f;
+      return {
+        w: Number.isFinite(w) ? Math.max(1, Math.round(w)) : null,
+        h: Number.isFinite(h) ? Math.max(1, Math.round(h)) : null,
+      };
+    }
+
+    /* Fill both fields from pixel values, respecting the active unit */
+    function setFieldsFromPx(wPx, hPx) {
+      const f = pxPerUnit();
+      state.syncing = true;
+      widthInput.value  = fmtField(wPx / f);
+      heightInput.value = fmtField(hPx / f);
+      state.syncing = false;
+      updateOutputInfo();
+    }
+
+    function updateOutputInfo() {
+      const { w, h } = currentPx();
+      if (!w || !h) { outputDims.textContent = '—'; return; }
+      outputDims.textContent = `${w} × ${h} px`;
+      const lockNote = aspectLock.checked ? 'Aspect ratio locked' : 'Free resize';
+      if (state.unit === 'px') {
+        outputNote.textContent = lockNote;
+      } else {
+        outputNote.textContent = `${lockNote} · at ${state.dpi} DPI`;
+      }
+      document.querySelectorAll('.unitLabel').forEach(el => { el.textContent = unitLabel(); });
+    }
+
+    function markTemplate(id) {
+      state.activeTemplate = id;
+      templateRow.querySelectorAll('.ratio-tpl').forEach((b) => {
+        b.setAttribute('aria-pressed', String(b.dataset.id === id));
+      });
+    }
+
+    function syncFromWidth() {
+      if (state.syncing) return;
+      const w = fromField(widthInput);
+      if (!aspectLock.checked) { updateOutputInfo(); return; }
+      if (!Number.isFinite(w) || w <= 0) { updateOutputInfo(); return; }
+      state.syncing = true;
+      heightInput.value = fmtField(w / state.ratio);
+      state.syncing = false;
+      updateOutputInfo();
+    }
+
+    function syncFromHeight() {
+      if (state.syncing) return;
+      const h = fromField(heightInput);
+      if (!aspectLock.checked) { updateOutputInfo(); return; }
+      if (!Number.isFinite(h) || h <= 0) { updateOutputInfo(); return; }
+      state.syncing = true;
+      widthInput.value = fmtField(h * state.ratio);
+      state.syncing = false;
+      updateOutputInfo();
+    }
+
+    function applyUnit(newUnit) {
+      // Keep the SAME physical/pixel size; just re-render the fields
+      const { w, h } = currentPx();
+      state.unit = newUnit;
+      unitRow.querySelectorAll('.opt-chip').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.unit === newUnit)));
+      dpiGroup.hidden = newUnit === 'px';
+      if (Number.isFinite(w) && Number.isFinite(h)) setFieldsFromPx(w, h);
+      updateOutputInfo();
+    }
+
+    widthInput.addEventListener('input', syncFromWidth);
+    heightInput.addEventListener('input', syncFromHeight);
+
+    aspectLock.addEventListener('change', () => {
+      if (aspectLock.checked) { markTemplate(state.activeTemplate); syncFromWidth(); }
+      else { markTemplate(null); updateOutputInfo(); }
+    });
+
+    /* Ratio template click — locks ratio to the template */
+    templateRow.addEventListener('click', (e) => {
+      const btn = e.target.closest('.ratio-tpl');
+      if (!btn) return;
+      state.ratio = parseFloat(btn.dataset.ratio);
+      aspectLock.checked = true;
+      markTemplate(btn.dataset.id);
+      syncFromWidth();           // keep width, fix height to template ratio
+      showToast(`Ratio locked to ${btn.querySelector('.ratio-label').textContent}`);
+    });
+
+    unitRow.addEventListener('click', (e) => {
+      const btn = e.target.closest('.opt-chip');
+      if (!btn) return;
+      applyUnit(btn.dataset.unit);
+    });
+
+    dpiSelect.addEventListener('change', () => {
+      state.dpi = parseInt(dpiSelect.value, 10);
+      const { w, h } = currentPx();
+      if (Number.isFinite(w) && Number.isFinite(h)) setFieldsFromPx(w, h);
+      updateOutputInfo();
+    });
+
+    scaleRow.addEventListener('click', (e) => {
+      const btn = e.target.closest('.opt-chip');
+      if (!btn || !state.img) return;
+      const scale = parseFloat(btn.dataset.scale);
+      state.ratio = state.original.w / state.original.h;   // quick scale keeps the original ratio
+      markTemplate(null);
+      setFieldsFromPx(Math.round(state.original.w * scale), Math.round(state.original.h * scale));
+      scaleRow.querySelectorAll('.opt-chip').forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+    });
+
+    function loadFile(file) {
+      clearError();
+      if (!file) return;
+      if (!file.type.startsWith('image/')) { showError('That is not an image file. Please drop a JPG, PNG or WebP.'); return; }
+      if (file.size > 15 * 1024 * 1024) { showError('That image is over 15 MB — please use a smaller one.'); return; }
+
+      const url = URL.createObjectURL(file);
+      const img = new Image();
+      img.onload = () => {
+        if (state.url) URL.revokeObjectURL(state.url);
+        state.img = img;
+        state.url = url;
+        state.ratio = img.naturalWidth / img.naturalHeight;
+        state.original = { w: img.naturalWidth, h: img.naturalHeight, name: file.name };
+        state.activeTemplate = null;
+        markTemplate(null);
+
+        setFieldsFromPx(img.naturalWidth, img.naturalHeight);
+        origDims.textContent = `${img.naturalWidth} × ${img.naturalHeight} px`;
+        origName.textContent = file.name;
+        thumbPreview.src = url;
+
+        scaleRow.querySelectorAll('.opt-chip').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.scale === '1')));
+        dropzone.hidden = true;
+        editor.hidden = false;
+        updateOutputInfo();
+      };
+      img.onerror = () => showError('Could not read that image — it may be corrupted.');
+      img.src = url;
+    }
+
+    dropzone.addEventListener('click', () => fileInput.click());
+    dropzone.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileInput.click(); } });
+    fileInput.addEventListener('change', () => loadFile(fileInput.files[0]));
+    ['dragenter', 'dragover'].forEach(evt => dropzone.addEventListener(evt, (e) => { e.preventDefault(); dropzone.classList.add('dragover'); }));
+    ['dragleave', 'drop'].forEach(evt => dropzone.addEventListener(evt, (e) => { e.preventDefault(); dropzone.classList.remove('dragover'); }));
+    dropzone.addEventListener('drop', (e) => loadFile(e.dataTransfer.files[0]));
+
+    jpegQuality.addEventListener('input', () => { jpegQualityLabel.textContent = jpegQuality.value; });
+
+    document.getElementById('resizeBtn').addEventListener('click', () => {
+      if (!state.img) return;
+      const { w, h } = currentPx();
+      if (!w || !h) { showError('Enter a valid width and height.'); return; }
+      if (Math.max(w, h) > 8000) { showError('Maximum output side is 8000 px. Lower the DPI or the physical size.'); return; }
+      clearError();
+
+      canvas.width = w;
+      canvas.height = h;
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = 'high';
+      ctx.drawImage(state.img, 0, 0, w, h);
+
+      const type = formatSelect.value;
+      const quality = type === 'image/png' ? undefined : parseInt(jpegQuality.value, 10) / 100;
+      canvas.toBlob((blob) => {
+        if (!blob) { showError('Resize failed in this browser. Try a different format.'); return; }
+        const base = (state.original?.name || 'image').replace(/\.[^.]+$/, '');
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${base}-${w}x${h}.${extFor(type)}`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 4000);
+        showToast(`Downloaded ${w} × ${h} px`);
+      }, type, quality);
+    });
+
+    document.getElementById('resetBtn').addEventListener('click', () => {
+      if (state.url) URL.revokeObjectURL(state.url);
+      state.img = null; state.original = null; state.url = null; state.activeTemplate = null;
+      fileInput.value = '';
+      editor.hidden = true;
+      dropzone.hidden = false;
+      clearError();
+    });
+  </script>
+  <script src="../../../js/vault.js"></script>
+</body>
+</html>

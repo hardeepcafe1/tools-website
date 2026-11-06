@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<!-- Toolbox by Harmno | github.com/harmno -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#ffffff" />
+  <title>Image Compressor — Toolbox</title>
+  <meta name="description" content="Compress JPG, PNG and WebP images right in your browser — quality slider, live preview, instant download. Nothing is uploaded." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%236366f1'/%3E%3Cstop offset='1' stop-color='%238b5cf6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='8' fill='url(%23g)'/%3E%3Crect x='8.5' y='8.5' width='6.5' height='6.5' rx='1.6' fill='%23fff'/%3E%3Crect x='17' y='8.5' width='6.5' height='6.5' rx='1.6' fill='%23fff' opacity='.75'/%3E%3Crect x='8.5' y='17' width='6.5' height='6.5' rx='1.6' fill='%23fff' opacity='.75'/%3E%3Crect x='17' y='17' width='6.5' height='6.5' rx='1.6' fill='%23fff' opacity='.5'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../../css/style.css" />
+<!-- toolbox-icon: image -->
+</head>
+<body class="tool-page">
+
+  <header class="tool-nav">
+    <div class="tool-nav-inner">
+      <a class="back-link" href="../../../index.html">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        All tools
+      </a>
+      <a class="brand" href="../../../index.html" aria-label="Toolbox home">
+        <svg class="brand-mark" viewBox="0 0 32 32" width="28" height="28" aria-hidden="true">
+          <defs><linearGradient id="brandGradSm" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6366f1"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient></defs>
+          <rect width="32" height="32" rx="8" fill="url(#brandGradSm)"/>
+          <rect x="8.5" y="8.5" width="6.5" height="6.5" rx="1.6" fill="#fff"/>
+          <rect x="17" y="8.5" width="6.5" height="6.5" rx="1.6" fill="#fff" opacity=".75"/>
+          <rect x="8.5" y="17" width="6.5" height="6.5" rx="1.6" fill="#fff" opacity=".75"/>
+          <rect x="17" y="17" width="6.5" height="6.5" rx="1.6" fill="#fff" opacity=".5"/>
+        </svg>
+        <span class="brand-name" style="font-size:17px">Toolbox</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="tool-shell">
+    <div class="tool-head">
+      <div class="tool-icon tint-image">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><circle cx="8.6" cy="10.2" r="1.5"/><path d="m21 15.5-4.8-4.8L8.5 18.5"/></svg>
+      </div>
+      <h1>Image Compressor</h1>
+      <p>Shrink JPG, PNG and WebP files — right here in the page. Your image never leaves your device.</p>
+    </div>
+
+    <div class="tool-panel">
+      <!-- Dropzone -->
+      <div class="dropzone" id="dropzone" role="button" tabindex="0" aria-label="Upload an image">
+        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin:0 auto;color:var(--accent)"><rect x="3" y="5" width="18" height="14" rx="2.5"/><circle cx="8.6" cy="10.2" r="1.5"/><path d="m21 15.5-4.8-4.8L8.5 18.5"/></svg>
+        <p><strong>Click to choose an image</strong> or drag &amp; drop it here</p>
+        <p style="font-size:11.5px;color:var(--text-3)">JPG · PNG · WebP — up to ~15 MB</p>
+        <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp" hidden />
+      </div>
+
+      <div class="error-box" id="errorBox" role="alert" style="margin-top:12px"></div>
+
+      <!-- Editor (hidden until an image is loaded) -->
+      <div id="editor" hidden>
+        <div class="field-grid grid-weighted-2" style="margin-top:16px">
+          <div class="field-group">
+            <label for="qualityRange">Quality — <span id="qualityLabel">72</span>%</label>
+            <input type="range" id="qualityRange" min="10" max="100" step="1" value="72" style="width:100%;accent-color:var(--accent);height:46px" />
+          </div>
+          <div class="field-group">
+            <label for="maxWidth">Max width</label>
+            <select id="maxWidth" class="select-input">
+              <option value="original">Keep original</option>
+              <option value="1920">1920 px</option>
+              <option value="1280" selected>1280 px</option>
+              <option value="800">800 px</option>
+              <option value="640">640 px</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="split-panes" style="margin-top:16px">
+          <div class="field-group">
+            <label>Original</label>
+            <div class="result-row" style="height:100%"><div>
+              <div id="origDims" style="font-weight:700;font-size:15px">—</div>
+              <div id="origSize" style="font-size:13px;color:var(--text-2);margin-top:4px">—</div>
+              <div id="origName" style="font-size:11px;color:var(--text-3);margin-top:8px;word-break:break-all">—</div>
+            </div></div>
+          </div>
+          <div class="field-group">
+            <label>Compressed</label>
+            <div class="result-row" style="height:100%;border-color:#bbf7d0;background:var(--green-soft)"><div>
+              <div id="newDims" style="font-weight:700;font-size:15px">—</div>
+              <div id="newSize" style="font-size:13px;color:#047857;margin-top:4px;font-weight:650">—</div>
+              <div id="savedPct" style="font-size:20px;font-weight:800;letter-spacing:-0.02em;color:var(--green);margin-top:8px">—</div>
+            </div></div>
+          </div>
+        </div>
+
+        <img id="previewImg" alt="Compressed image preview" style="display:block;max-width:100%;max-height:260px;margin:16px auto 0;border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow-sm)" />
+
+        <div class="tool-actions" style="margin-top:16px">
+          <a class="btn btn-primary" id="downloadBtn" href="#" download="compressed.jpg">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download compressed
+          </a>
+          <button class="btn btn-ghost" id="resetBtn">Choose another image</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <a class="harmno-badge" href="https://github.com/harmno" target="_blank" rel="noopener" aria-label="Harmno on GitHub"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.111.82-.261.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>Harmno</a>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <footer class="tool-footer-mini">
+    <a href="../../../index.html">← Back to all tools</a> &nbsp;·&nbsp; Toolbox by <a href="https://github.com/harmno" target="_blank" rel="noopener">Harmno</a>
+  </footer>
+
+  <canvas id="workCanvas" hidden></canvas>
+
+  <script>
+    const dropzone     = document.getElementById('dropzone');
+    const fileInput    = document.getElementById('fileInput');
+    const editor       = document.getElementById('editor');
+    const errorBox     = document.getElementById('errorBox');
+    const qualityRange = document.getElementById('qualityRange');
+    const qualityLabel = document.getElementById('qualityLabel');
+    const maxWidth     = document.getElementById('maxWidth');
+    const canvas       = document.getElementById('workCanvas');
+    const ctx          = canvas.getContext('2d');
+    const previewImg   = document.getElementById('previewImg');
+    const downloadBtn  = document.getElementById('downloadBtn');
+    const origDims     = document.getElementById('origDims');
+    const origSize     = document.getElementById('origSize');
+    const origName     = document.getElementById('origName');
+    const newDims      = document.getElementById('newDims');
+    const newSize      = document.getElementById('newSize');
+    const savedPct     = document.getElementById('savedPct');
+
+    const state = { img: null, original: null, objectUrl: null };
+    let compressTimer;
+
+    const fmtSize = (bytes) => {
+      if (bytes < 1024) return bytes + ' B';
+      if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+      return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+    };
+    const extFor = (type) => type === 'image/png' ? 'png' : type === 'image/webp' ? 'webp' : 'jpg';
+
+    function showError(msg) { errorBox.textContent = msg; errorBox.classList.add('show'); }
+    function clearError()    { errorBox.classList.remove('show'); }
+
+    function loadFile(file) {
+      clearError();
+      if (!file) return;
+      if (!file.type.startsWith('image/')) { showError('That is not an image file. Please drop a JPG, PNG or WebP.'); return; }
+      if (file.size > 15 * 1024 * 1024) { showError('That image is over 15 MB — please use a smaller one.'); return; }
+
+      const url = URL.createObjectURL(file);
+      const img = new Image();
+      img.onload = () => {
+        if (state.objectUrl) URL.revokeObjectURL(state.objectUrl);
+        state.img = img;
+        state.original = { w: img.naturalWidth, h: img.naturalHeight, size: file.size, type: file.type, name: file.name };
+        origDims.textContent = `${img.naturalWidth} × ${img.naturalHeight} px`;
+        origSize.textContent = fmtSize(file.size);
+        origName.textContent = file.name;
+        dropzone.hidden = true;
+        editor.hidden = false;
+        compress();
+      };
+      img.onerror = () => showError('Could not read that image — it may be corrupted.');
+      img.src = url;
+    }
+
+    function compress() {
+      const img = state.img;
+      if (!img) return;
+      const q = parseInt(qualityRange.value, 10) / 100;
+      qualityLabel.textContent = qualityRange.value;
+
+      const limit = maxWidth.value === 'original' ? Infinity : parseInt(maxWidth.value, 10);
+      let w = img.naturalWidth, h = img.naturalHeight;
+      if (w > limit) { h = Math.max(1, Math.round((h * limit) / w)); w = limit; }
+
+      canvas.width = w;
+      canvas.height = h;
+      ctx.drawImage(img, 0, 0, w, h);
+
+      const outType = ['image/jpeg', 'image/png', 'image/webp'].includes(state.original.type) ? state.original.type : 'image/jpeg';
+      canvas.toBlob((blob) => {
+        if (!blob) { showError('Compression failed in this browser. Try a different image.'); return; }
+        if (state.objectUrl) URL.revokeObjectURL(state.objectUrl);
+        state.objectUrl = URL.createObjectURL(blob);
+
+        previewImg.src = state.objectUrl;
+        newDims.textContent = `${w} × ${h} px`;
+        newSize.textContent = fmtSize(blob.size);
+
+        const saved = (1 - blob.size / state.original.size) * 100;
+        if (saved >= 0) {
+          savedPct.textContent = `−${saved.toFixed(0)}%`;
+          savedPct.style.color = 'var(--green)';
+        } else {
+          savedPct.textContent = `+${Math.abs(saved).toFixed(0)}%`;
+          savedPct.style.color = '#dc2626';
+        }
+
+        const base = state.original.name.replace(/\.[^.]+$/, '');
+        downloadBtn.href = state.objectUrl;
+        downloadBtn.download = `${base}-min.${extFor(outType)}`;
+      }, outType, outType === 'image/png' ? undefined : q);
+    }
+
+    const scheduleCompress = () => { clearTimeout(compressTimer); compressTimer = setTimeout(compress, 180); };
+
+    dropzone.addEventListener('click', () => fileInput.click());
+    dropzone.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileInput.click(); } });
+    fileInput.addEventListener('change', () => loadFile(fileInput.files[0]));
+
+    ['dragenter', 'dragover'].forEach(evt => dropzone.addEventListener(evt, (e) => { e.preventDefault(); dropzone.classList.add('dragover'); }));
+    ['dragleave', 'drop'].forEach(evt => dropzone.addEventListener(evt, (e) => { e.preventDefault(); dropzone.classList.remove('dragover'); }));
+    dropzone.addEventListener('drop', (e) => loadFile(e.dataTransfer.files[0]));
+
+    qualityRange.addEventListener('input', scheduleCompress);
+    maxWidth.addEventListener('change', compress);
+
+    document.getElementById('resetBtn').addEventListener('click', () => {
+      if (state.objectUrl) URL.revokeObjectURL(state.objectUrl);
+      state.img = null; state.original = null; state.objectUrl = null;
+      fileInput.value = '';
+      editor.hidden = true;
+      dropzone.hidden = false;
+      clearError();
+    });
+  </script>
+  <script src="../../../js/vault.js"></script>
+</body>
+</html>

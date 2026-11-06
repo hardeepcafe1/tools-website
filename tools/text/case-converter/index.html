@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<!-- Toolbox by Harmno | github.com/harmno -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#ffffff" />
+  <title>Case Converter — Toolbox</title>
+  <meta name="description" content="Convert text between UPPERCASE, lowercase, Title Case, camelCase, snake_case and more — live, free, in your browser." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%236366f1'/%3E%3Cstop offset='1' stop-color='%238b5cf6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='8' fill='url(%23g)'/%3E%3Crect x='8.5' y='8.5' width='6.5' height='6.5' rx='1.6' fill='%23fff'/%3E%3Crect x='17' y='8.5' width='6.5' height='6.5' rx='1.6' fill='%23fff' opacity='.75'/%3E%3Crect x='8.5' y='17' width='6.5' height='6.5' rx='1.6' fill='%23fff' opacity='.75'/%3E%3Crect x='17' y='17' width='6.5' height='6.5' rx='1.6' fill='%23fff' opacity='.5'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../../css/style.css" />
+<!-- toolbox-icon: case -->
+</head>
+<body class="tool-page">
+
+  <header class="tool-nav">
+    <div class="tool-nav-inner">
+      <a class="back-link" href="../../../index.html">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        All tools
+      </a>
+      <a class="brand" href="../../../index.html" aria-label="Toolbox home">
+        <svg class="brand-mark" viewBox="0 0 32 32" width="28" height="28" aria-hidden="true">
+          <defs><linearGradient id="brandGradSm" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6366f1"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient></defs>
+          <rect width="32" height="32" rx="8" fill="url(#brandGradSm)"/>
+          <rect x="8.5" y="8.5" width="6.5" height="6.5" rx="1.6" fill="#fff"/>
+          <rect x="17" y="8.5" width="6.5" height="6.5" rx="1.6" fill="#fff" opacity=".75"/>
+          <rect x="8.5" y="17" width="6.5" height="6.5" rx="1.6" fill="#fff" opacity=".75"/>
+          <rect x="17" y="17" width="6.5" height="6.5" rx="1.6" fill="#fff" opacity=".5"/>
+        </svg>
+        <span class="brand-name" style="font-size:17px">Toolbox</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="tool-shell">
+    <div class="tool-head">
+      <div class="tool-icon tint-text">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 17 8.2 6.5 12.9 17"/><path d="M5.2 13.4h6"/><circle cx="17.4" cy="14.6" r="3.1"/><path d="M20.5 11.7v5.8"/></svg>
+      </div>
+      <h1>Case Converter</h1>
+      <p>Pick a case style below — your text is transformed live, entirely in your browser.</p>
+    </div>
+
+    <div class="tool-panel">
+      <div class="chip-options" id="modeRow" role="group" aria-label="Case mode"></div>
+
+      <div class="split-panes" style="margin-top:14px">
+        <div class="field-group">
+          <label for="ccInput">Your text</label>
+          <textarea id="ccInput" class="tool-textarea" style="min-height:200px" placeholder="Type or paste text here…" autofocus spellcheck="false"></textarea>
+        </div>
+        <div class="field-group">
+          <label for="ccOutput">Result &nbsp;<span id="ccModeLabel" style="color:var(--accent-strong)">Title Case</span></label>
+          <textarea id="ccOutput" class="tool-textarea" style="min-height:200px;background:#fff" readonly placeholder="Converted text appears here…"></textarea>
+        </div>
+      </div>
+
+      <div class="tool-actions" style="margin-top:16px">
+        <button class="btn btn-primary" id="copyBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+          Copy result
+        </button>
+        <button class="btn btn-ghost" id="swapBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+          Use result as input
+        </button>
+        <button class="btn btn-ghost" id="clearBtn">Clear</button>
+      </div>
+    </div>
+  </main>
+
+  <a class="harmno-badge" href="https://github.com/harmno" target="_blank" rel="noopener" aria-label="Harmno on GitHub"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.111.82-.261.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>Harmno</a>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <footer class="tool-footer-mini">
+    <a href="../../../index.html">← Back to all tools</a> &nbsp;·&nbsp; Toolbox by <a href="https://github.com/harmno" target="_blank" rel="noopener">Harmno</a>
+  </footer>
+
+  <script>
+    const input   = document.getElementById('ccInput');
+    const output  = document.getElementById('ccOutput');
+    const modeRow = document.getElementById('modeRow');
+    const modeLabel = document.getElementById('ccModeLabel');
+    const toast   = document.getElementById('toast');
+
+    const words = (t) => t.match(/[A-Za-z0-9]+/g) || [];
+    const cap   = (s) => s.charAt(0).toUpperCase() + s.slice(1);
+
+    const MODES = [
+      ['upper',    'UPPERCASE',     (t) => t.toUpperCase()],
+      ['lower',    'lowercase',     (t) => t.toLowerCase()],
+      ['title',    'Title Case',    (t) => t.toLowerCase().replace(/[a-z0-9]+/g, cap)],
+      ['sentence', 'Sentence case', (t) => t.toLowerCase().replace(/(^\s*[a-z]|[.!?…]\s+[a-z])/g, (m) => m.toUpperCase())],
+      ['camel',    'camelCase',     (t) => words(t).map((w, i) => i === 0 ? w.toLowerCase() : cap(w.toLowerCase())).join('')],
+      ['pascal',   'PascalCase',    (t) => words(t).map((w) => cap(w.toLowerCase())).join('')],
+      ['snake',    'snake_case',    (t) => words(t).map((w) => w.toLowerCase()).join('_')],
+      ['kebab',    'kebab-case',    (t) => words(t).map((w) => w.toLowerCase()).join('-')],
+      ['constant', 'CONSTANT_CASE', (t) => words(t).map((w) => w.toUpperCase()).join('_')],
+      ['inverse',  'iNvErSe CaSe',  (t) => [...t].map((c) => c === c.toUpperCase() ? c.toLowerCase() : c.toUpperCase()).join('')],
+    ];
+
+    let currentMode = 'title';
+    let toastTimer;
+
+    function render() {
+      const fn = (MODES.find(([id]) => id === currentMode) || MODES[0])[2];
+      output.value = fn(input.value);
+      modeRow.querySelectorAll('.opt-chip').forEach((btn) => {
+        btn.setAttribute('aria-pressed', String(btn.dataset.mode === currentMode));
+      });
+      modeLabel.textContent = (MODES.find(([id]) => id === currentMode) || MODES[0])[1];
+    }
+
+    modeRow.innerHTML = MODES.map(([id, label]) =>
+      `<button class="opt-chip" data-mode="${id}" aria-pressed="${id === currentMode}">${label}</button>`
+    ).join('');
+
+    function showToast(msg) {
+      toast.textContent = msg;
+      toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove('show'), 2200);
+    }
+
+    modeRow.addEventListener('click', (e) => {
+      const btn = e.target.closest('.opt-chip');
+      if (!btn) return;
+      currentMode = btn.dataset.mode;
+      render();
+    });
+
+    input.addEventListener('input', render);
+
+    document.getElementById('copyBtn').addEventListener('click', async () => {
+      if (!output.value) { showToast('Nothing to copy yet'); return; }
+      try { await navigator.clipboard.writeText(output.value); showToast('Copied to clipboard'); }
+      catch { showToast('Clipboard blocked — select the text manually'); }
+    });
+
+    document.getElementById('swapBtn').addEventListener('click', () => {
+      if (!output.value) return;
+      input.value = output.value;
+      render();
+      showToast('Result moved to input');
+    });
+
+    document.getElementById('clearBtn').addEventListener('click', () => {
+      input.value = '';
+      render();
+      input.focus();
+    });
+
+    render();
+  </script>
+  <script src="../../../js/vault.js"></script>
+</body>
+</html>

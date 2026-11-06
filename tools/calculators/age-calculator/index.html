@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<!-- Toolbox by Harmno | github.com/harmno -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#ffffff" />
+  <title>Age Calculator — Toolbox</title>
+  <meta name="description" content="Exact age in years, months and days — plus total days lived, weekday you were born, and your next birthday countdown." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%236366f1'/%3E%3Cstop offset='1' stop-color='%238b5cf6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='8' fill='url(%23g)'/%3E%3Crect x='8.5' y='8.5' width='6.5' height='6.5' rx='1.6' fill='%23fff'/%3E%3Crect x='17' y='8.5' width='6.5' height='6.5' rx='1.6' fill='%23fff' opacity='.75'/%3E%3Crect x='8.5' y='17' width='6.5' height='6.5' rx='1.6' fill='%23fff' opacity='.75'/%3E%3Crect x='17' y='17' width='6.5' height='6.5' rx='1.6' fill='%23fff' opacity='.5'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../../css/style.css" />
+<!-- toolbox-icon: calendar -->
+</head>
+<body class="tool-page">
+
+  <header class="tool-nav">
+    <div class="tool-nav-inner">
+      <a class="back-link" href="../../../index.html">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        All tools
+      </a>
+      <a class="brand" href="../../../index.html" aria-label="Toolbox home">
+        <svg class="brand-mark" viewBox="0 0 32 32" width="28" height="28" aria-hidden="true">
+          <defs><linearGradient id="brandGradSm" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6366f1"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient></defs>
+          <rect width="32" height="32" rx="8" fill="url(#brandGradSm)"/>
+          <rect x="8.5" y="8.5" width="6.5" height="6.5" rx="1.6" fill="#fff"/>
+          <rect x="17" y="8.5" width="6.5" height="6.5" rx="1.6" fill="#fff" opacity=".75"/>
+          <rect x="8.5" y="17" width="6.5" height="6.5" rx="1.6" fill="#fff" opacity=".75"/>
+          <rect x="17" y="17" width="6.5" height="6.5" rx="1.6" fill="#fff" opacity=".5"/>
+        </svg>
+        <span class="brand-name" style="font-size:17px">Toolbox</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="tool-shell">
+    <div class="tool-head">
+      <div class="tool-icon tint-calculators">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2.5"/><line x1="8" y1="3" x2="8" y2="7.5"/><line x1="16" y1="3" x2="16" y2="7.5"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      </div>
+      <h1>Age Calculator</h1>
+      <p>Pick your date of birth — get your exact age, total days lived and next birthday countdown.</p>
+    </div>
+
+    <div class="tool-panel">
+      <div class="field-grid">
+        <div class="field-group">
+          <label for="dobInput">Date of birth</label>
+          <input type="date" id="dobInput" class="text-input" autofocus />
+        </div>
+      </div>
+
+      <div class="error-box" id="errorBox" role="alert" style="margin-top:12px"></div>
+
+      <div class="stat-tiles tiles-3" style="margin-top:18px" aria-live="polite">
+        <div class="stat-tile"><strong id="ageYears">—</strong><span>Years</span></div>
+        <div class="stat-tile"><strong id="ageMonths">—</strong><span>Months</span></div>
+        <div class="stat-tile"><strong id="ageDays">—</strong><span>Days</span></div>
+        <div class="stat-tile"><strong id="totalDays">—</strong><span>Total days</span></div>
+        <div class="stat-tile"><strong id="totalWeeks">—</strong><span>Total weeks</span></div>
+        <div class="stat-tile"><strong id="totalMonths">—</strong><span>Total months</span></div>
+      </div>
+
+      <div class="result-row" style="margin-top:16px">
+        <div>
+          <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3);margin-bottom:4px">Born on</div>
+          <strong id="bornOn" style="font-size:19px;letter-spacing:-0.02em">—</strong>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3);margin-bottom:4px">Next birthday in</div>
+          <strong id="nextBirthday" style="font-size:19px;letter-spacing:-0.02em;color:var(--accent-strong)">—</strong>
+        </div>
+      </div>
+
+      <div class="result-row" style="margin-top:12px">
+        <div>
+          <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3);margin-bottom:4px">Zodiac sign</div>
+          <strong id="zodiac" style="font-size:19px;letter-spacing:-0.02em">—</strong>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3);margin-bottom:4px">Heartbeats (approx.)</div>
+          <strong id="heartbeats" style="font-size:19px;letter-spacing:-0.02em">—</strong>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <a class="harmno-badge" href="https://github.com/harmno" target="_blank" rel="noopener" aria-label="Harmno on GitHub"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.111.82-.261.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>Harmno</a>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <footer class="tool-footer-mini">
+    <a href="../../../index.html">← Back to all tools</a> &nbsp;·&nbsp; Toolbox by <a href="https://github.com/harmno" target="_blank" rel="noopener">Harmno</a>
+  </footer>
+
+  <script>
+    const dobInput     = document.getElementById('dobInput');
+    const errorBox     = document.getElementById('errorBox');
+    const ageYears     = document.getElementById('ageYears');
+    const ageMonths    = document.getElementById('ageMonths');
+    const ageDays      = document.getElementById('ageDays');
+    const totalDays    = document.getElementById('totalDays');
+    const totalWeeks   = document.getElementById('totalWeeks');
+    const totalMonths  = document.getElementById('totalMonths');
+    const bornOn       = document.getElementById('bornOn');
+    const nextBirthday = document.getElementById('nextBirthday');
+    const zodiacEl     = document.getElementById('zodiac');
+    const heartbeats   = document.getElementById('heartbeats');
+
+    const TODAY = new Date();
+    dobInput.max = TODAY.toISOString().split('T')[0];
+
+    const ZODIAC = [
+      ['Capricorn', 1, 19], ['Aquarius', 2, 18], ['Pisces', 3, 20], ['Aries', 4, 19],
+      ['Taurus', 5, 20], ['Gemini', 6, 20], ['Cancer', 7, 22], ['Leo', 8, 22],
+      ['Virgo', 9, 22], ['Libra', 10, 22], ['Scorpio', 11, 21], ['Sagittarius', 12, 21], ['Capricorn', 12, 31],
+    ];
+    function zodiac(month, day) {
+      for (const [name, m, d] of ZODIAC) if (month < m || (month === m && day <= d)) return name;
+      return 'Capricorn';
+    }
+
+    const DAY = 86400000;
+    const fmt = (n) => n.toLocaleString('en-US');
+
+    function showError(msg) { errorBox.textContent = msg; errorBox.classList.add('show'); }
+    function clearError()    { errorBox.classList.remove('show'); }
+
+    function placeholder() {
+      [ageYears, ageMonths, ageDays, totalDays, totalWeeks, totalMonths].forEach(el => el.textContent = '—');
+      bornOn.textContent = '—'; nextBirthday.textContent = '—'; zodiacEl.textContent = '—'; heartbeats.textContent = '—';
+    }
+
+    function compute() {
+      clearError();
+      const raw = dobInput.value;
+      if (!raw) { placeholder(); return; }
+
+      const birth = new Date(raw + 'T00:00:00');
+      const today = new Date(TODAY.getFullYear(), TODAY.getMonth(), TODAY.getDate());
+      if (Number.isNaN(birth.getTime())) { showError('That date does not look valid.'); placeholder(); return; }
+      if (birth > today) { showError('Date of birth cannot be in the future.'); placeholder(); return; }
+
+      // Calendar-correct age (y/m/d)
+      let years  = today.getFullYear() - birth.getFullYear();
+      let months = today.getMonth() - birth.getMonth();
+      let days   = today.getDate() - birth.getDate();
+
+      if (days < 0) {
+        const prevMonth = new Date(today.getFullYear(), today.getMonth(), 0).getDate();
+        days += prevMonth;
+        months -= 1;
+      }
+      if (months < 0) { months += 12; years -= 1; }
+
+      const daysLived  = Math.floor((today - birth) / DAY);
+      const weeks      = Math.floor(daysLived / 7);
+      const monthsLived = years * 12 + months;
+
+      ageYears.textContent    = fmt(years);
+      ageMonths.textContent   = fmt(months);
+      ageDays.textContent     = fmt(days);
+      totalDays.textContent   = fmt(daysLived);
+      totalWeeks.textContent  = fmt(weeks);
+      totalMonths.textContent = fmt(monthsLived);
+
+      bornOn.textContent = birth.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+      zodiacEl.textContent = zodiac(birth.getMonth() + 1, birth.getDate());
+      heartbeats.textContent = '≈ ' + (daysLived * 24 * 60 * 80 / 1e6).toFixed(0) + 'M';
+
+      // Next birthday countdown
+      let next = new Date(today.getFullYear(), birth.getMonth(), birth.getDate());
+      if (next <= today) next = new Date(today.getFullYear() + 1, birth.getMonth(), birth.getDate());
+      const diff = Math.round((next - today) / DAY);
+      nextBirthday.textContent = diff === 0 ? 'Today!' : `${fmt(diff)} day${diff === 1 ? '' : 's'} (${next.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })})`;
+    }
+
+    dobInput.addEventListener('input', compute);
+    dobInput.addEventListener('change', compute);
+  </script>
+  <script src="../../../js/vault.js"></script>
+</body>
+</html>

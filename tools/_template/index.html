@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<!-- Toolbox by Harmno | github.com/harmno -->
+<!--
+  ═══════════════════════════════════════════════════════════════
+  TOOLBOX — New tool template (one FOLDER per tool)
+
+  1. Copy this whole  _template  FOLDER into any category:
+       tools\pdf\your-tool\        ← rename "your-tool" to anything
+     Then it becomes: tools\pdf\your-tool\index.html
+     Put your CSS, JS and images inside the SAME folder.
+  2. Build your tool inside index.html (plain HTML/CSS/JS)
+  3. Double-click  sync-tools.bat  →  your tool is now LIVE on the site.
+     Name comes from <title>, description from <meta name="description">,
+     icon from <!-- toolbox-icon: ... --> (optional), category from the folders.
+
+  Note: paths in this file assume the tool lives at  tools\<category>\<name>\index.html
+  ═══════════════════════════════════════════════════════════════
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#ffffff" />
+  <title>My Tool — Toolbox</title>
+  <meta name="description" content="One short line describing your tool. This is shown on the tool card." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%236366f1'/%3E%3Cstop offset='1' stop-color='%238b5cf6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='8' fill='url(%23g)'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../../css/style.css" />
+  <!-- Optional icon override (keys in ICONS in js/main.js): -->
+  <!-- toolbox-icon: braces -->
+</head>
+<body class="tool-page">
+
+  <!-- Nav (keep as-is) -->
+  <header class="tool-nav">
+    <div class="tool-nav-inner">
+      <a class="back-link" href="../../../index.html">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        All tools
+      </a>
+      <a class="brand" href="../../../index.html" aria-label="Toolbox home">
+        <span class="brand-name" style="font-size:17px">Toolbox</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="tool-shell">
+    <div class="tool-head">
+      <div class="tool-icon tint-developer">
+        <!-- Swap in an icon from js/main.js ICONS if you want -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/></svg>
+      </div>
+      <h1>My Tool</h1>
+      <p>One line about what this tool does and why it's useful.</p>
+    </div>
+
+    <div class="tool-panel">
+      <!-- ▼▼▼ YOUR TOOL GOES HERE ▼▼▼ -->
+      <p style="color:var(--text-2);text-align:center;padding:40px 20px">Build your tool UI here — inputs, outputs, buttons.<br>Reuse <code>.tool-textarea</code>, <code>.stat-tile</code>, <code>.btn</code> etc. from <code>css/style.css</code>.</p>
+      <!-- ▲▲▲ YOUR TOOL GOES HERE ▲▲▲ -->
+
+      <div class="tool-actions" style="margin-top:18px">
+        <button class="btn btn-primary" id="actionBtn">Do the thing</button>
+        <button class="btn btn-ghost" id="resetBtn">Reset</button>
+      </div>
+    </div>
+  </main>
+
+  <a class="harmno-badge" href="https://github.com/harmno" target="_blank" rel="noopener" aria-label="Harmno on GitHub"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.111.82-.261.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>Harmno</a>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <footer class="tool-footer-mini">
+    <a href="../../../index.html">← Back to all tools</a> &nbsp;·&nbsp; Toolbox by <a href="https://github.com/harmno" target="_blank" rel="noopener">Harmno</a>
+  </footer>
+
+  <script>
+    // Your tool logic goes here.
+    const toast = document.getElementById('toast');
+    let toastTimer;
+    function showToast(msg) {
+      toast.textContent = msg;
+      toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove('show'), 2400);
+    }
+
+    document.getElementById('actionBtn').addEventListener('click', () => showToast('It works!'));
+    document.getElementById('resetBtn').addEventListener('click', () => showToast('Reset'));
+  </script>
+  <script src="../../../js/vault.js"></script>
+</body>
+</html>
